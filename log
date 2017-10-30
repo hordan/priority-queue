@@ -1,0 +1,488 @@
+
+> priority-queue@1.0.0 test C:\Users\NotePad.by\priority-queue
+> mocha -r ./test/setup-mocha.js
+
+
+
+  MaxHeap
+    #constructor
+      √ assigns null to this.root
+      √ assigns [] to this.parentNodes
+    #push
+      √ calls insertNode with new node having passed data and priority
+      √ calls shiftNodeUp with new node having passed data and priority
+    #insertNode
+      √ assings passed node to this.root if heap is empty
+      1) inserts nodes to correct places
+      2) maintains this.parentNodes in correct state
+    #shiftNodeUp
+      3) shifts node up until heap property is valid
+      4) maintants parentNodes in correct state
+      5) calls Node.swapWithParent
+      6) calls itself recursively
+    #clear
+      √ assigns null to root and [] to parentNodes
+    #pop
+      √ does nothing if heap is empty
+      7) returns data associated with root
+      8) calls detachRoot
+      9) calls restoreRootFromLastInsertedNode with detached root
+      10) calls shiftNodeDown with current heap root
+    #detachRoot
+      11) assigns null to this.root
+      √ removes root from parentNodes
+      12) returns detached root
+    #restoreRootFromLastInsertedNode
+      13) should remove last inserted node and assing it to root
+      14) should maintain correct state of parentNodes
+    #shiftNodeDown
+      15) shifts node down until heap property is valid
+      16) maintants parentNodes in correct state
+      17) calls Node.swapWithParent
+      18) calls itself recursively
+    #size
+      19) returns current size of heap
+    #isEmpty
+      20) reutrns true if heap is empty
+
+  Node
+    #constructor
+      √ assigns passed data and priority to this
+      √ assigns this.parent, this.left and this.right to null
+    #appendChild
+      √ assigns passed child to this.left
+      √ assigns passed child to this.right if this.left exists
+      √ does nothing if this.left and this.right exist
+    #removeChild
+      √ assing null to this.left if passed node is left child
+      √ assing null to this.right if passed node is right child
+      √ throws error if passed node is not a child of this node
+      √ assigns null to child.parent
+    #remove
+      √ does nothing if node does not have parent
+      √ calls child.parent.removeChild with child as arg
+    #swapWithParent
+      √ does nothing if node does not have parent
+      √ updates parent.parent
+      √ updates child.parent
+      √ updates parent.child.parent
+      √ updates children of node and parent node
+      √ maintains correct state of parent.parent.left and parent.parent.right
+
+  PriorityQueue
+    #constructor
+      21) assings passed maxSize or set it to default value 30
+      √ assings new MaxHeap to this.heap
+    #push
+      22) calls heap.push with passed data and priority
+      23) throws an error if queue has max size
+    #shift
+      24) calls heap.pop
+      25) returns value of removed node
+      26) throws an error if queue is empty
+      27) should return items sorted by priority
+      28) should handle items with same priority (return in the same order this items have been added)
+    #size
+      29) returns current size of queue
+    #isEmpty
+      30) return true if queue is empty
+
+
+  26 passing (233ms)
+  30 failing
+
+  1) MaxHeap #insertNode inserts nodes to correct places:
+     AssertionError: expected null to equal { Object (data, priority, ...) }
+      at Context.it (test\max-heap.spec.js:77:27)
+
+  2) MaxHeap #insertNode maintains this.parentNodes in correct state:
+
+      AssertionError: expected { Object (data, priority, ...) } to equal { Object (data, priority, ...) }
+      + expected - actual
+
+       {
+      -  "data": 0
+      +  "data": 1
+         "left": [null]
+         "parent": [null]
+      -  "priority": 0
+      +  "priority": 1
+         "right": [null]
+       }
+      
+      at Context.it (test\max-heap.spec.js:102:32)
+
+  3) MaxHeap #shiftNodeUp shifts node up until heap property is valid:
+
+      AssertionError: expected { Object (data, priority, ...) } to equal { Object (data, priority, ...) }
+      + expected - actual
+
+       {
+      -  "data": 0
+      -  "left": {
+      +  "data": 3
+      +  "left": [null]
+      +  "parent": {
+           "data": 1
+      -    "left": {
+      -      "data": 3
+      -      "left": [null]
+      -      "parent": [Circular]
+      -      "priority": 20
+      -      "right": [null]
+      +    "left": [Circular]
+      +    "parent": {
+      +      "data": 0
+      +      "left": [Circular]
+      +      "parent": [null]
+      +      "priority": 10
+      +      "right": {
+      +        "data": 2
+      +        "left": [null]
+      +        "parent": [Circular]
+      +        "priority": 7
+      +        "right": [null]
+      +      }
+           }
+      -    "parent": [Circular]
+           "priority": 5
+           "right": [null]
+         }
+      -  "parent": [null]
+      -  "priority": 10
+      -  "right": {
+      -    "data": 2
+      -    "left": [null]
+      -    "parent": [Circular]
+      -    "priority": 7
+      -    "right": [null]
+      -  }
+      +  "priority": 20
+      +  "right": [null]
+       }
+      
+      at Context.it (test\max-heap.spec.js:158:22)
+
+  4) MaxHeap #shiftNodeUp maintants parentNodes in correct state:
+
+      AssertionError: expected { Object (data, priority, ...) } to equal { Object (data, priority, ...) }
+      + expected - actual
+
+       {
+      -  "data": 1
+      +  "data": 0
+         "left": {
+      -    "data": 3
+      -    "left": [null]
+      -    "parent": [Circular]
+      -    "priority": 20
+      -    "right": [null]
+      -  }
+      -  "parent": {
+      -    "data": 0
+      -    "left": [Circular]
+      -    "parent": [null]
+      -    "priority": 10
+      -    "right": {
+      -      "data": 2
+      +    "data": 1
+      +    "left": {
+      +      "data": 3
+             "left": [null]
+             "parent": [Circular]
+      -      "priority": 7
+      +      "priority": 20
+             "right": [null]
+           }
+      +    "parent": [Circular]
+      +    "priority": 5
+      +    "right": [null]
+         }
+      -  "priority": 5
+      -  "right": [null]
+      +  "parent": [null]
+      +  "priority": 10
+      +  "right": {
+      +    "data": 2
+      +    "left": [null]
+      +    "parent": [Circular]
+      +    "priority": 7
+      +    "right": [null]
+      +  }
+       }
+      
+      at Context.it (test\max-heap.spec.js:170:32)
+
+  5) MaxHeap #shiftNodeUp calls Node.swapWithParent:
+     AssertionError: expected swapWithParent to have been called exactly twice, but it was called 0 times
+      at Context.it (test\max-heap.spec.js:181:53)
+
+  6) MaxHeap #shiftNodeUp calls itself recursively:
+     expected shiftNodeUp to have been called exactly thrice, but it was called once
+    shiftNodeUp([Node] {
+  data: 3,
+  left: null,
+  parent: [Node] {
+    data: 1,
+    left: [Circular],
+    parent: [Node] {
+      data: 0,
+      left: [Circular],
+      parent: null,
+      priority: 10,
+      right: [Node] { data: 2, left: null, parent: [Circular], priority: 7, right: null }
+    },
+    priority: 5,
+    right: null
+  },
+  priority: 20,
+  right: null
+}) at Context.it (C:\Users\NotePad.by\priority-queue\test\max-heap.spec.js:188:6)
+  AssertionError: expected shiftNodeUp to have been called exactly thrice, but it was called once
+      shiftNodeUp([Node] {
+    data: 3,
+    left: null,
+    parent: [Node] {
+      data: 1,
+      left: [Circular],
+      parent: [Node] {
+        data: 0,
+        left: [Circular],
+        parent: null,
+        priority: 10,
+        right: [Node] { data: 2, left: null, parent: [Circular], priority: 7, right: null }
+      },
+      priority: 5,
+      right: null
+    },
+    priority: 20,
+    right: null
+  }) at Context.it (test\max-heap.spec.js:188:6)
+      at Context.it (test\max-heap.spec.js:190:38)
+
+  7) MaxHeap #pop returns data associated with root:
+     AssertionError: expected undefined to equal 100
+      at Context.it (test\max-heap.spec.js:226:23)
+
+  8) MaxHeap #pop calls detachRoot:
+     AssertionError: expected detachRoot to have been called at least once, but it was never called
+      at Context.it (test\max-heap.spec.js:240:37)
+
+  9) MaxHeap #pop calls restoreRootFromLastInsertedNode with detached root:
+     AssertionError: expected restoreRootFromLastInsertedNode to have been called with arguments {  }%D
+      at Context.it (test\max-heap.spec.js:254:59)
+
+  10) MaxHeap #pop calls shiftNodeDown with current heap root:
+     AssertionError: expected shiftNodeDown to have been called with arguments null%D
+      at Context.it (test\max-heap.spec.js:268:41)
+
+  11) MaxHeap #detachRoot assigns null to this.root:
+     AssertionError: expected { Object (data, priority, ...) } to equal null
+      at Context.it (test\max-heap.spec.js:283:22)
+
+  12) MaxHeap #detachRoot returns detached root:
+     AssertionError: expected undefined to equal { Object (data, priority, ...) }
+      at Context.it (test\max-heap.spec.js:302:22)
+
+  13) MaxHeap #restoreRootFromLastInsertedNode should remove last inserted node and assing it to root:
+     AssertionError: expected { Object (data, priority, ...) } to equal null
+      at Context.it (test\max-heap.spec.js:324:22)
+
+  14) MaxHeap #restoreRootFromLastInsertedNode should maintain correct state of parentNodes:
+
+      AssertionError: expected 0 to equal -1
+      + expected - actual
+
+      -0
+      +-1
+      
+      at Context.it (test\max-heap.spec.js:337:43)
+
+  15) MaxHeap #shiftNodeDown shifts node down until heap property is valid:
+
+      AssertionError: expected { Object (data, priority, ...) } to equal { Object (data, priority, ...) }
+      + expected - actual
+
+       {
+      -  "data": 0
+      +  "data": 1
+         "left": {
+      -    "data": 1
+      -    "left": {
+      -      "data": 3
+      +    "data": 3
+      +    "left": [null]
+      +    "parent": [Circular]
+      +    "priority": 5
+      +    "right": [null]
+      +  }
+      +  "parent": {
+      +    "data": 0
+      +    "left": [Circular]
+      +    "parent": [null]
+      +    "priority": 3
+      +    "right": {
+      +      "data": 2
+             "left": [null]
+             "parent": [Circular]
+      -      "priority": 5
+      +      "priority": 7
+             "right": [null]
+           }
+      -    "parent": [Circular]
+      -    "priority": 20
+      -    "right": [null]
+         }
+      -  "parent": [null]
+      -  "priority": 3
+      -  "right": {
+      -    "data": 2
+      -    "left": [null]
+      -    "parent": [Circular]
+      -    "priority": 7
+      -    "right": [null]
+      -  }
+      +  "priority": 20
+      +  "right": [null]
+       }
+      
+      at Context.it (test\max-heap.spec.js:374:22)
+
+  16) MaxHeap #shiftNodeDown maintants parentNodes in correct state:
+
+      AssertionError: expected { Object (data, priority, ...) } to equal { Object (data, priority, ...) }
+      + expected - actual
+
+       {
+      -  "data": 1
+      -  "left": {
+      -    "data": 3
+      -    "left": [null]
+      -    "parent": [Circular]
+      -    "priority": 5
+      -    "right": [null]
+      -  }
+      +  "data": 3
+      +  "left": [null]
+         "parent": {
+      -    "data": 0
+      +    "data": 1
+           "left": [Circular]
+      -    "parent": [null]
+      -    "priority": 3
+      -    "right": {
+      -      "data": 2
+      -      "left": [null]
+      -      "parent": [Circular]
+      -      "priority": 7
+      -      "right": [null]
+      +    "parent": {
+      +      "data": 0
+      +      "left": [Circular]
+      +      "parent": [null]
+      +      "priority": 3
+      +      "right": {
+      +        "data": 2
+      +        "left": [null]
+      +        "parent": [Circular]
+      +        "priority": 7
+      +        "right": [null]
+      +      }
+           }
+      +    "priority": 20
+      +    "right": [null]
+         }
+      -  "priority": 20
+      +  "priority": 5
+         "right": [null]
+       }
+      
+      at Context.it (test\max-heap.spec.js:387:32)
+
+  17) MaxHeap #shiftNodeDown calls Node.swapWithParent:
+     AssertionError: expected swapWithParent to have been called exactly once, but it was called 0 times
+      at Context.it (test\max-heap.spec.js:398:59)
+
+  18) MaxHeap #shiftNodeDown calls itself recursively:
+     expected shiftNodeDown to have been called exactly thrice, but it was called once
+    shiftNodeDown([Node] {
+  data: 0,
+  left: [Node] {
+    data: 1,
+    left: [Node] { data: 3, left: null, parent: [Circular], priority: 5, right: null },
+    parent: [Circular],
+    priority: 20,
+    right: null
+  },
+  parent: null,
+  priority: 3,
+  right: [Node] { data: 2, left: null, parent: [Circular], priority: 7, right: null }
+}) at Context.it (C:\Users\NotePad.by\priority-queue\test\max-heap.spec.js:405:6)
+  AssertionError: expected shiftNodeDown to have been called exactly thrice, but it was called once
+      shiftNodeDown([Node] {
+    data: 0,
+    left: [Node] {
+      data: 1,
+      left: [Node] { data: 3, left: null, parent: [Circular], priority: 5, right: null },
+      parent: [Circular],
+      priority: 20,
+      right: null
+    },
+    parent: null,
+    priority: 3,
+    right: [Node] { data: 2, left: null, parent: [Circular], priority: 7, right: null }
+  }) at Context.it (test\max-heap.spec.js:405:6)
+      at Context.it (test\max-heap.spec.js:407:40)
+
+  19) MaxHeap #size returns current size of heap:
+     AssertionError: expected undefined to equal 0
+      at Context.it (test\max-heap.spec.js:417:24)
+
+  20) MaxHeap #isEmpty reutrns true if heap is empty:
+     AssertionError: expected undefined to equal false
+      at Context.it (test\max-heap.spec.js:441:27)
+
+  21) PriorityQueue #constructor assings passed maxSize or set it to default value 30:
+     AssertionError: expected undefined to equal 30
+      at Context.it (test\queue.spec.js:11:43)
+
+  22) PriorityQueue #push calls heap.push with passed data and priority:
+     AssertionError: expected push to have been called with arguments 0, 1%D
+      at Context.it (test\queue.spec.js:32:37)
+
+  23) PriorityQueue #push throws an error if queue has max size:
+     AssertionError: expected [Function] to throw an error
+      at Context.it (test\queue.spec.js:42:15)
+
+  24) PriorityQueue #shift calls heap.pop:
+     AssertionError: expected pop to have been called at least once, but it was never called
+      at Context.it (test\queue.spec.js:58:35)
+
+  25) PriorityQueue #shift returns value of removed node:
+     AssertionError: expected undefined to equal 0
+      at Context.it (test\queue.spec.js:63:25)
+
+  26) PriorityQueue #shift throws an error if queue is empty:
+     AssertionError: expected [Function] to throw an error
+      at Context.it (test\queue.spec.js:69:15)
+
+  27) PriorityQueue #shift should return items sorted by priority:
+     AssertionError: expected undefined to equal 2
+      at expectedData.forEach.d (test\queue.spec.js:87:51)
+      at Array.forEach (native)
+      at Context.it (test\queue.spec.js:87:17)
+
+  28) PriorityQueue #shift should handle items with same priority (return in the same order this items have been added):
+     AssertionError: expected undefined to equal 3
+      at Context.it (test\queue.spec.js:101:26)
+
+  29) PriorityQueue #size returns current size of queue:
+     AssertionError: expected undefined to equal 1
+      at Context.it (test\queue.spec.js:111:24)
+
+  30) PriorityQueue #isEmpty return true if queue is empty:
+     AssertionError: expected undefined to equal true
+      at Context.it (test\queue.spec.js:133:27)
+
+
+

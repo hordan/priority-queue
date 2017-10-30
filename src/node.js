@@ -17,7 +17,7 @@ class Node {
 			node.parent = this;
 		}
 		else{
-			return;
+			return null;
 		}
 }
 	removeChild(node) {
@@ -47,35 +47,35 @@ class Node {
 		if(!this.parent){
 			return;
 		}
-		var parent = this.parent;
-		var pleft = parent.left;
-		var pright = parent.right;
-		parent.left = this.left;
-		parent.right = this.right;
+		var ptr = this.parent;
+		var ptrleft = ptr.left;
+		var ptrright = ptr.right;
+		ptr.left = this.left;
+		ptr.right = this.right;
 		if (this.left)
-			this.left.parent = parent;
+			this.left.parent = ptr;//swap
 		if (this.right)
-			this.right.parent = parent;
-		if(this === pleft){
+			this.right.parent = ptr;//swap
+		if(this === ptrleft){
 			this.left = this.parent;
-			this.right = pright;
-			if (pright)
-				pright.parent = this;
+			this.right = ptrright;
+			if (ptrright)
+				ptrright.parent = this;
 		}
 		else{
 		  this.right = this.parent
-			this.left = pleft;
-			if (pleft)
-				pleft.parent = this;
+			this.left = ptrleft;
+			if (ptrleft)
+				ptrleft.parent = this;
 		}
-		if (parent.parent) {
-			if (parent.parent.left == parent)
-				parent.parent.left = this;
+		if (ptr.parent) {
+			if (ptr.parent.left == ptr)
+				ptr.parent.left = this;
 			else
-				parent.parent.right = this;
+				ptr.parent.right = this;
 		}
-		this.parent = parent.parent;
-		parent.parent = this;
+		this.parent = ptr.parent;
+		ptr.parent = this;
 	}
 }
 module.exports = Node;
