@@ -8,74 +8,72 @@ class Node {
 	}
 
 	appendChild(node) {
-		if(!this.left){
-			this.left = node;
-			node.parent = this;
+		if (node !== null){
+			if(this.left == null)
+			{
+				this.left = node;
+				node.parent = this;
+			}else if (this.right == null){
+				this.right = node;
+				node.parent = this;
+			}
 		}
-		else if (!this.right) {
-			this.right = node;
-			node.parent = this;
-		}
-		else{
-			return null;
-		}
-}
+	}
+
 	removeChild(node) {
-		if(this.left === node){
+		if(this.left == node)
+		{
 			this.left = null;
 			node.parent = null;
 		}
-		else if(this.right === node){
+		else if(this.right == node)
+		{
 			this.right = null;
 			node.parent = null;
 		}
-		else if( (this.right != node) && (this.left != node) ){
-			throw new exception;
-		}
-
-}
-	remove() {
-		if(!this.parent){
-			return;
-		}
-		else {
-		this.parent.removeChild(this);
+		else throw new Error('Error in removeChild');
 	}
+
+	remove() {
+		if(this.parent !== null){
+			this.parent.removeChild(this);
+		}
 	}
 
 	swapWithParent() {
-		if(!this.parent){
-			return;
-		}
-		var ptr = this.parent;
-		var ptrleft = ptr.left;
-		var ptrright = ptr.right;
-		ptr.left = this.left;
-		ptr.right = this.right;
-		if (this.left)
-			this.left.parent = ptr;//swap
-		if (this.right)
-			this.right.parent = ptr;//swap
-		if(this === ptrleft){
-			this.left = this.parent;
-			this.right = ptrright;
-			if (ptrright)
-				ptrright.parent = this;
-		}
-		else{
-		  this.right = this.parent
-			this.left = ptrleft;
-			if (ptrleft)
-				ptrleft.parent = this;
-		}
-		if (ptr.parent) {
-			if (ptr.parent.left == ptr)
-				ptr.parent.left = this;
+		if (this.parent !== null){
+			var _parent = this.parent;
+			var pparent = this.parent.parent;
+
+			var lflag = false;
+			var save_child = _parent.left;
+			if(this.parent.left == this){
+				lflag = true;
+				save_child = _parent.right;
+			}
+
+			this.remove();
+			_parent.remove();
+
+			if(pparent !== null)
+				pparent.appendChild(this);
+			_parent.left = _parent.right = null;
+			_parent.appendChild(this.left);
+			_parent.appendChild(this.right);
+
+			this.left = this.right = null;
+			if(lflag)
+			{
+				this.appendChild(_parent);
+				this.appendChild(save_child);
+			}
 			else
-				ptr.parent.right = this;
+			{
+				this.appendChild(save_child);
+				this.appendChild(_parent);
+			}
 		}
-		this.parent = ptr.parent;
-		ptr.parent = this;
 	}
 }
+
 module.exports = Node;
